@@ -1,9 +1,7 @@
 # vcard-generator
 
 ## Live Demo
-```
 [Live Demo Link](https://jleifeld.github.io/vCard-Generator/)
-```
 
 ## Project setup
 ```
