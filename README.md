@@ -1,5 +1,10 @@
 # vcard-generator
 
+## Live Demo
+```
+[Live Demo Link](https://jleifeld.github.io/vCard-Generator/)
+```
+
 ## Project setup
 ```
 npm install
@@ -18,4 +23,9 @@ npm run build
 ### Lints and fixes files
 ```
 npm run lint
+```
+
+### Deploy to Github Pages
+```
+npm run deploy
 ```
