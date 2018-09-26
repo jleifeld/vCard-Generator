@@ -4,71 +4,29 @@
 
     <form @submit.prevent="downloadVCard">
 
-      <label for="firstName">Vorname:</label> 
-      <br>
-      <input type="text" v-model="firstName" id="firstName">
+      <!-- For each data -->
+      <div class="formField" v-for="singleData in vCardData" :key="singleData.key">
 
-      <br>
+        <!-- When children exists -->
+        <template v-if="singleData.parentName">
 
-      <label for="lastName">Nachname:</label> 
-      <br>
-      <input type="text" v-model="lastName" id="lastName">
+          <!-- For each children -->
+          <div class="formField--children" v-for="singleChildren in singleData.children" :key="singleChildren.key">
+            <label :for="singleChildren.property">{{singleChildren.title}}:</label> 
+            <br>
+            <input type="text" v-model="singleChildren.content" :id="singleChildren.property">
+          </div>
 
-      <br>
+        </template>
 
-      <label for="title">Berufsbezeichnung:</label> 
-      <br>
-      <input type="text" v-model="title" id="title">
+        <!-- When it is an single entry -->
+        <template v-else>
+          <label :for="singleData.property">{{singleData.title}}:</label> 
+          <br>
+          <input type="text" v-model="singleData.content" :id="singleData.property">
+        </template>
 
-      <br>
-
-      <label for="workPhone">Telefon-Nummer (Geschäftlich):</label> 
-      <br>
-      <input type="text" v-model="workPhone" id="workPhone">
-
-      <br>
-
-      <label for="workFax">Fax-Nummer (Geschäftlich):</label> 
-      <br>
-      <input type="text" v-model="workFax" id="workFax">
-
-      <br>
-
-      <label for="workEmail">E-Mail (Geschäftlich):</label> 
-      <br>
-      <input type="text" v-model="workEmail" id="workEmail">
-
-      <br>
-
-      <label for="organization">Firma:</label> 
-      <br>
-      <input type="text" v-model="organization" id="organization">
-
-      <br>
-
-      <label for="workAdressStreet">Straße (Geschäftlich):</label> 
-      <br>
-      <input type="text" v-model="workAdressStreet" id="workAdressStreet">
-
-      <br>
-
-      <label for="workAdressPostalCode">PLZ (Geschäftlich):</label> 
-      <br>
-      <input type="text" v-model="workAdressPostalCode" id="workAdressPostalCode">
-
-      <br>
-
-      <label for="workAdressCity">Ort (Geschäftlich):</label> 
-      <br>
-      <input type="text" v-model="workAdressCity" id="workAdressCity">
-
-      <br>
-
-      <label for="wordAdressCountryRegion">Land (Geschäftlich):</label> 
-      <br>
-      <input type="text" v-model="wordAdressCountryRegion" id="wordAdressCountryRegion">
-
-      <br>
+      </div>
 
       <button type="submit">vCard erstellen und downloaden</button>
 
@@ -91,40 +49,116 @@ export default {
   },
   data: function(){
     return {
-      firstName: '',
-      lastName: '',
-      organization: '',
-      workPhone: '',
-      title: '',
-      workFax: '',
-      workEmail: '',
-      workAdressLabel: 'Geschäftsadresse',
-      workAdressStreet: '',
-      workAdressCity: '',
-      workAdressPostalCode: '',
-      wordAdressCountryRegion: ''
+      vCardData: [
+        {
+          title: 'Vorname',
+          property: 'firstName',
+          content: ''
+        },
+        {
+          title: 'Nachname',
+          property: 'lastName',
+          content: ''
+        },
+        {
+          title: 'Titel',
+          property: 'title',
+          content: ''
+        },
+        {
+          title: 'E-Mail (Geschäftlich)',
+          property: 'workEmail',
+          content: ''
+        },
+        {
+          title: 'Telefon (Geschäftlich)',
+          property: 'workPhone',
+          content: ''
+        },
+        {
+          title: 'Fax (Geschäftlich)',
+          property: 'workFax',
+          content: ''
+        },
+        {
+          title: 'Firma',
+          property: 'organization',
+          content: ''
+        },
+        {
+          parentName: 'homeAddress',
+          children: [
+            {
+              title: 'Straße (Privat)',
+              property: 'street',
+              content: ''
+            },
+            {
+              title: 'PLZ (Privat)',
+              property: 'postalCode',
+              content: ''
+            },
+            {
+              title: 'Stadt (Privat)',
+              property: 'city',
+              content: ''
+            },
+            {
+              title: 'Land (Privat)',
+              property: 'countryRegion',
+              content: ''
+            }   
+          ]
+        },  
+        {
+          parentName: 'workAddress',
+          children: [
+            {
+              title: 'Straße (Firma)',
+              property: 'street',
+              content: ''
+            },
+            {
+              title: 'PLZ (Firma)',
+              property: 'postalCode',
+              content: ''
+            },
+            {
+              title: 'Stadt (Firma)',
+              property: 'city',
+              content: ''
+            },
+            {
+              title: 'Land (Firma)',
+              property: 'countryRegion',
+              content: ''
+            }   
+          ]
+        }   
+      ]
     }
   },
   computed: {},
   methods: {
     downloadVCard: function(){
       // Set data to vCard
-      vCard.firstName = this.firstName;
-      vCard.lastName = this.lastName;
-      vCard.organization = this.organization;
-      vCard.workPhone = this.workPhone;
-      vCard.title = this.title;
-      vCard.workFax = this.workFax;
-      vCard.workEmail = this.workEmail;
-
-      vCard.workAddress.label = this.workAdressLabel;
-      vCard.workAddress.street = this.workAdressStreet;
-      vCard.workAddress.city = this.workAdressCity;
-      vCard.workAddress.postalCode = this.workAdressPostalCode;
-      vCard.workAddress.countryRegion = this.wordAdressCountryRegion;
+      this.vCardData.forEach(singleData => {
+        // When data contains children
+        if(singleData.parentName){
+          singleData.children.forEach(singleChildren => {
+            vCard[singleData.parentName][singleChildren.property] = singleChildren.content;
+          })
+        } 
+        // When it is an single entry
+        else {
+          vCard[singleData.property] = singleData.content;
+        }
+      });
 
       // Create file name
-      let fileName = filenamify(this.firstName + '-' + this.lastName) + '.vcf';
+      let firstName = this.vCardData.find(element => element.property == 'firstName');
+      let lastName = this.vCardData.find(element => element.property == 'lastName');
+      let fileName = filenamify(firstName.content + '-' + lastName.content) + '.vcf';
 
       // Download vCard client-side with virtual link
       let dataString = 'data:text/vcard;charset=utf-8,' + vCard.getFormattedString();
