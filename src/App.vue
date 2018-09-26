@@ -16,15 +16,9 @@
 
       <br>
 
-      <label for="role">Berufsbezeichnung:</label> 
+      <label for="title">Berufsbezeichnung:</label> 
       <br>
-      <input type="text" v-model="role" id="role">
-
-      <br>
-
-      <label for="organization">Firma:</label> 
-      <br>
-      <input type="text" v-model="organization" id="organization">
+      <input type="text" v-model="title" id="title">
 
       <br>
 
@@ -43,6 +37,36 @@
       <label for="workEmail">E-Mail (Geschäftlich):</label> 
       <br>
       <input type="text" v-model="workEmail" id="workEmail">
+
+      <br>
+
+      <label for="organization">Firma:</label> 
+      <br>
+      <input type="text" v-model="organization" id="organization">
+
+      <br>
+
+      <label for="workAdressStreet">Straße (Geschäftlich):</label> 
+      <br>
+      <input type="text" v-model="workAdressStreet" id="workAdressStreet">
+
+      <br>
+
+      <label for="workAdressPostalCode">PLZ (Geschäftlich):</label> 
+      <br>
+      <input type="text" v-model="workAdressPostalCode" id="workAdressPostalCode">
+
+      <br>
+
+      <label for="workAdressCity">Ort (Geschäftlich):</label> 
+      <br>
+      <input type="text" v-model="workAdressCity" id="workAdressCity">
+
+      <br>
+
+      <label for="wordAdressCountryRegion">Land (Geschäftlich):</label> 
+      <br>
+      <input type="text" v-model="wordAdressCountryRegion" id="wordAdressCountryRegion">
 
       <br>
 
@@ -71,9 +95,14 @@ export default {
       lastName: '',
       organization: '',
       workPhone: '',
-      role: '',
+      title: '',
       workFax: '',
-      workEmail: ''
+      workEmail: '',
+      workAdressLabel: 'Geschäftsadresse',
+      workAdressStreet: '',
+      workAdressCity: '',
+      workAdressPostalCode: '',
+      wordAdressCountryRegion: ''
     }
   },
   computed: {},
@@ -84,9 +113,15 @@ export default {
       vCard.lastName = this.lastName;
       vCard.organization = this.organization;
       vCard.workPhone = this.workPhone;
-      vCard.role = this.role;
+      vCard.title = this.title;
       vCard.workFax = this.workFax;
       vCard.workEmail = this.workEmail;
+
+      vCard.workAddress.label = this.workAdressLabel;
+      vCard.workAddress.street = this.workAdressStreet;
+      vCard.workAddress.city = this.workAdressCity;
+      vCard.workAddress.postalCode = this.workAdressPostalCode;
+      vCard.workAddress.countryRegion = this.wordAdressCountryRegion;
 
       // Create file name
       let fileName = filenamify(this.firstName + '-' + this.lastName) + '.vcf';
