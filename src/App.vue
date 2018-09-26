@@ -16,6 +16,12 @@
 
       <br>
 
+      <label for="role">Berufsbezeichnung:</label> 
+      <br>
+      <input type="text" v-model="role" id="role">
+
+      <br>
+
       <label for="organization">Firma:</label> 
       <br>
       <input type="text" v-model="organization" id="organization">
@@ -28,9 +34,15 @@
 
       <br>
 
-      <label for="homePhone">Telefon-Nummer (Privat):</label> 
+      <label for="workFax">Fax-Nummer (Geschäftlich):</label> 
       <br>
-      <input type="text" v-model="homePhone" id="homePhone">
+      <input type="text" v-model="workFax" id="workFax">
+
+      <br>
+
+      <label for="workEmail">E-Mail (Geschäftlich):</label> 
+      <br>
+      <input type="text" v-model="workEmail" id="workEmail">
 
       <br>
 
@@ -59,7 +71,9 @@ export default {
       lastName: '',
       organization: '',
       workPhone: '',
-      homePhone: ''
+      role: '',
+      workFax: '',
+      workEmail: ''
     }
   },
   computed: {},
@@ -69,8 +83,10 @@ export default {
       vCard.firstName = this.firstName;
       vCard.lastName = this.lastName;
       vCard.organization = this.organization;
-      vCard.homePhone = this.homePhone;
       vCard.workPhone = this.workPhone;
+      vCard.role = this.role;
+      vCard.workFax = this.workFax;
+      vCard.workEmail = this.workEmail;
 
       // Create file name
       let fileName = filenamify(this.firstName + '-' + this.lastName) + '.vcf';
